@@ -11,11 +11,14 @@ clock = pygame.time.Clock()
 running = True
 
 walls = []
-#walls = create_screen_walls(WIDTH, HEIGHT)
+walls = create_screen_walls(WIDTH, HEIGHT)
 walls.append(Boundary(200,200,200,400))
+walls.append(Boundary(1000,500,900,100))
+
+
 
 # Create rays
-number_of_rays = 100
+number_of_rays = 36
 rays = create_rays(number_of_rays)
 
 while running:
@@ -29,12 +32,11 @@ while running:
     mouse_position = pygame.mouse.get_pos()
     
     for ray in rays:
-        ray.update_position(mouse_position)
-        collide_point = ray.collision(walls)
-        if collide_point:
-            pygame.draw.circle(surface=screen, color="red", radius=4, center=collide_point)
+        ray.update_position(mouse_position, walls)
+        for point in ray.collide_points:
+            pygame.draw.circle(surface=screen, color="red", radius=4, center=point)
         ray.draw(surface=screen)
-    
+
     for wall in walls:
         pygame.draw.line(surface=screen, color="white",start_pos=wall.origin, end_pos=wall.end, width=3)
     # flip() the display to put your work on screen
