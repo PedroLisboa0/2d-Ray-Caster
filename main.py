@@ -6,6 +6,7 @@ pygame.init()
 WIDTH = 1280
 HEIGHT = 720
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen.display_name = "2d Raycaster by Pedro Lisboa"
 clock = pygame.time.Clock()
 running = True
 pygame.mouse.set_visible(False)
