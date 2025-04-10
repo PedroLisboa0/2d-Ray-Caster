@@ -4,6 +4,7 @@ ray_color = "white"
 max_ray_length = 2500 # this just has to be bigger than the screen's diagonal size, so it can traverse the whole window.
 # However, it will never get to the max length since they collide with the screen walls.
 
+
 def create_rays(num_of_rays):
     angles = np.linspace(start=0, stop=360, num=num_of_rays, endpoint=False)
     rays = []
@@ -12,12 +13,16 @@ def create_rays(num_of_rays):
         rays.append(ray)
     return rays
 
+
 class Ray:
+
+
     def __init__(self, x=0, y=0, angle=0):
         self.position = pygame.math.Vector2(x, y)
         self.direction = pygame.math.Vector2(np.cos(angle),np.sin(angle))
         self.length = max_ray_length
         self.collide_points = []
+
 
     def update_position(self, new_position, walls):
         self.position.update(new_position)
@@ -26,8 +31,10 @@ class Ray:
         self.check_collision(walls)
         self.end_point = self.position + self.direction * self.length
     
+
     def draw(self, surface):
         pygame.draw.aaline(surface=surface, color=ray_color,start_pos=self.position, end_pos=self.end_point)
+
 
     def check_collision(self, walls):
         for wall in walls:
@@ -60,8 +67,10 @@ class Ray:
             else:
                 continue
 
+
     def calculate_distance(self, point_x, point_y): # calculates euclidian distance between ray origin and collision point
         base = self.position.x - point_x
         height = self.position.y - point_y
         distance = np.sqrt(np.square(base) + np.square(height))
         return distance
+    
