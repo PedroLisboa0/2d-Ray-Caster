@@ -6,7 +6,7 @@ pygame.init()
 WIDTH = 1280
 HEIGHT = 720
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-screen.display_name = "2d Raycaster by Pedro Lisboa"
+pygame.display.set_caption("2d Raycaster by Pedro Lisboa")
 clock = pygame.time.Clock()
 running = True
 pygame.mouse.set_visible(False)
@@ -27,9 +27,6 @@ while running:
     
     for ray in rays:
         ray.update_position(mouse_position, walls)
-        for point in ray.collide_points:
-            pygame.draw.circle(surface=screen, color="red", radius=4, center=point)
-            break
         ray.draw(surface=screen)
 
     for wall in walls:
