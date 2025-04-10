@@ -1,7 +1,7 @@
 import pygame
 import numpy as np
 from ray import Ray, create_rays
-from boundaries import Boundary, create_screen_walls
+from boundaries import create_walls
 
 pygame.init()
 WIDTH = 1280
@@ -10,21 +10,19 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 running = True
 
-walls = []
-walls = create_screen_walls(WIDTH, HEIGHT)
-walls.append(Boundary(200,200,200,400))
-walls.append(Boundary(1000,500,900,100))
-
-
+walls = create_walls(num=3, screen_walls=True, width=WIDTH, height=HEIGHT)
 
 # Create rays
-number_of_rays = 36
+number_of_rays = 100
 rays = create_rays(number_of_rays)
 
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_r:
+                walls = create_walls(num=3, screen_walls=True, width=WIDTH, height=HEIGHT)
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("black")
