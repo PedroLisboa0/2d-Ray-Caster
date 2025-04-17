@@ -4,9 +4,11 @@ ray_color = "white"
 max_ray_length = 2500 # this just has to be bigger than the screen's diagonal size, so it can traverse the whole window.
 # However, it will never get to the max length since they collide with the screen walls.
 
+start_angle = 60
+FOV = 90
 
 def create_rays(num_of_rays):
-    angles = np.linspace(start=0, stop=360, num=num_of_rays, endpoint=False)
+    angles = np.linspace(start=start_angle, stop=start_angle+FOV, num=num_of_rays, endpoint=False)
     rays = []
     for angle in angles:
         ray = Ray(angle=np.deg2rad(angle))
@@ -17,15 +19,17 @@ def create_rays(num_of_rays):
 class Ray:
 
 
-    def __init__(self, x=0, y=0, angle=0):
+    def __init__(self, angle, x=0, y=0):
         self.position = pygame.math.Vector2(x, y)
-        self.direction = pygame.math.Vector2(np.cos(angle),np.sin(angle))
+        self.angle = angle
+        self.direction = pygame.math.Vector2(np.cos(self.angle),np.sin(self.angle))
         self.length = max_ray_length
         self.collide_points = []
 
 
     def update_position(self, new_position, walls):
         self.position.update(new_position)
+        self.direction.update((np.cos(self.angle),np.sin(self.angle)))
         self.length = max_ray_length
         self.collide_points = []
         self.check_collision(walls)

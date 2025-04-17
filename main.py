@@ -19,6 +19,7 @@ rays = create_rays(num_of_rays=36)
 player_x = WIDTH/2
 player_y = HEIGHT/2
 player_speed = 15
+vision_speed = 0 # == 0 when static
 
 while running:
     for event in pygame.event.get():
@@ -36,6 +37,17 @@ while running:
                     player_x -= player_speed
                 case pygame.K_d:
                     player_x += player_speed
+                case pygame.K_e:
+                    if vision_speed < 0:
+                        vision_speed = 0
+                    else:
+                        vision_speed = 0.005
+                case pygame.K_q:
+                    if vision_speed > 0:
+                        vision_speed = 0
+                    else:
+                        vision_speed = - 0.005
+
 
 
     screen.fill("black")
@@ -47,6 +59,7 @@ while running:
     
     for ray in rays:
         ray.update_position(player_position, walls)
+        ray.angle += vision_speed
         ray.draw(surface=screen)
 
     for wall in walls:
