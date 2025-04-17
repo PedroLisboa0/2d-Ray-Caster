@@ -13,8 +13,9 @@ pygame.mouse.set_visible(False)
 
 # Defines if moves the light source with mouse or wasd (keyboard)
 movement_type = "mouse"
+is_screen_walls = False
 
-walls = create_walls(num=3, screen_walls=True, width=WIDTH, height=HEIGHT)
+walls = create_walls(num=3, screen_walls=is_screen_walls, width=WIDTH, height=HEIGHT)
 rays = create_rays(num_of_rays=36)
 player_x = WIDTH/2
 player_y = HEIGHT/2
@@ -28,7 +29,7 @@ while running:
         if event.type == pygame.KEYDOWN:
             match event.key:
                 case pygame.K_r:
-                    walls = create_walls(num=3, screen_walls=True, width=WIDTH, height=HEIGHT)
+                    walls = create_walls(num=3, screen_walls=is_screen_walls, width=WIDTH, height=HEIGHT)
                 case pygame.K_w:
                     player_y -= player_speed
                 case pygame.K_s:

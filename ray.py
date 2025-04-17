@@ -64,12 +64,11 @@ class Ray:
                 px = x1 + t * (x2 - x1)
                 py = y1 + t * (y2 - y1) 
                 self.collide_points.append((px, py))
-
-                disance_to_collision = self.calculate_distance(px, py)
-                if self.length > disance_to_collision:
-                    self.length = disance_to_collision
             else:
                 continue
+            distances = [self.calculate_distance(*point) for point in self.collide_points]
+            self.disance_to_collision = min(distances)
+            self.length = self.disance_to_collision
 
 
     def calculate_distance(self, point_x, point_y): # calculates euclidian distance between ray origin and collision point
