@@ -32,6 +32,7 @@ class Ray:
         self.direction.update((np.cos(self.angle),np.sin(self.angle)))
         self.length = max_ray_length
         self.collide_points = []
+        self.collide_point = None
         self.check_collision(walls)
         self.end_point = self.position + self.direction * self.length
     
@@ -66,9 +67,14 @@ class Ray:
                 self.collide_points.append((px, py))
             else:
                 continue
+
             distances = [self.calculate_distance(*point) for point in self.collide_points]
-            self.disance_to_collision = min(distances)
-            self.length = self.disance_to_collision
+            self.distance_to_collision = min(distances)
+
+            point_index = distances.index(self.distance_to_collision)
+            self.collide_point = self.collide_points[point_index]
+
+            self.length = self.distance_to_collision
 
 
     def calculate_distance(self, point_x, point_y): # calculates euclidian distance between ray origin and collision point

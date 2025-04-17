@@ -14,10 +14,10 @@ running = True
 pygame.mouse.set_visible(False)
 
 movement_type = "mouse" # Defines if moves the light source with mouse or wasd (keyboard)
-is_screen_walls = False # Defines if there are wall objects at the borders of the screen
+is_screen_walls = True # Defines if there are wall objects at the borders of the screen
 render3d = False
 number_of_walls = 4
-number_of_rays = 60
+number_of_rays = 100
 
 walls = create_walls(num=number_of_walls, screen_walls=is_screen_walls, width=WIDTH, height=HEIGHT)
 rays = create_rays(num_of_rays=number_of_rays)
@@ -79,7 +79,8 @@ while running:
             pygame.draw.line(surface=screen, color="white",start_pos=wall.origin, end_pos=wall.end, width=3)
 
     if render3d:
-        renderer.draw(rays=rays, walls=walls)
+        renderer.create_scene(rays)
+        renderer.draw()
 
     pygame.display.flip()
     clock.tick(60)
