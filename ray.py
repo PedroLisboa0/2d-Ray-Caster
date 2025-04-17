@@ -5,7 +5,7 @@ max_ray_length = 2500 # this just has to be bigger than the screen's diagonal si
 # However, it will never get to the max length since they collide with the screen walls.
 
 start_angle = 60
-FOV = 90
+FOV = 60
 
 def create_rays(num_of_rays):
     angles = np.linspace(start=start_angle, stop=start_angle+FOV, num=num_of_rays, endpoint=False)
@@ -25,6 +25,7 @@ class Ray:
         self.direction = pygame.math.Vector2(np.cos(self.angle),np.sin(self.angle))
         self.length = max_ray_length
         self.collide_points = []
+        self.collide_point = None
 
 
     def update_position(self, new_position, walls):

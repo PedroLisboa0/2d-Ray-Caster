@@ -14,8 +14,8 @@ running = True
 pygame.mouse.set_visible(False)
 
 movement_type = "mouse" # Defines if moves the light source with mouse or wasd (keyboard)
-is_screen_walls = True # Defines if there are wall objects at the borders of the screen
-render3d = False
+is_screen_walls = False # Defines if there are wall objects at the borders of the screen
+render3d = False 
 number_of_walls = 4
 number_of_rays = 100
 

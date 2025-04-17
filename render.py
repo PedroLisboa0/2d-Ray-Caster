@@ -11,11 +11,16 @@ class Renderer:
         self.rects = []
         x_axis = np.linspace(0, self.scene_width, len(rays))
         for ray, x in zip(rays, x_axis):
-            rect = pygame.Rect(0,0,self.rect_width, ray.distance_to_collision)
-            rect.center = (x, self.scene_height/2)
-            self.rects.append(rect)
+            if ray.collide_point:
+                rect_height = self.map_value(ray.distance_to_collision, 0, self.scene_width*1.5, self.scene_height, 0)
+                rect = pygame.Rect(0,0,self.rect_width+10, rect_height)
+                rect.center = (x, self.scene_height/2)
+                self.rects.append(rect)
 
 
     def draw(self):
         for rect in self.rects:
             pygame.draw.rect(surface=self.surface, color="white", rect=rect)
+
+    def map_value(self, x, in_min, in_max, out_min, out_max):
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
