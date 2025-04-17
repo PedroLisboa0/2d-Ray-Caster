@@ -11,22 +11,42 @@ clock = pygame.time.Clock()
 running = True
 pygame.mouse.set_visible(False)
 
+# Defines if moves the light source with mouse or wasd (keyboard)
+movement_type = "mouse"
+
 walls = create_walls(num=3, screen_walls=True, width=WIDTH, height=HEIGHT)
 rays = create_rays(num_of_rays=36)
+player_x = WIDTH/2
+player_y = HEIGHT/2
+player_speed = 15
 
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_r:
-                walls = create_walls(num=3, screen_walls=True, width=WIDTH, height=HEIGHT)
+            match event.key:
+                case pygame.K_r:
+                    walls = create_walls(num=3, screen_walls=True, width=WIDTH, height=HEIGHT)
+                case pygame.K_w:
+                    player_y -= player_speed
+                case pygame.K_s:
+                    player_y += player_speed
+                case pygame.K_a:
+                    player_x -= player_speed
+                case pygame.K_d:
+                    player_x += player_speed
+
 
     screen.fill("black")
-    mouse_position = pygame.mouse.get_pos()
+
+    if movement_type == "mouse":
+        player_position = pygame.mouse.get_pos()
+    elif movement_type == "keyboard":
+        player_position = (player_x, player_y)
     
     for ray in rays:
-        ray.update_position(mouse_position, walls)
+        ray.update_position(player_position, walls)
         ray.draw(surface=screen)
 
     for wall in walls:
