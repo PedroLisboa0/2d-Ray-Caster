@@ -5,13 +5,13 @@ max_ray_length = 2500 # this just has to be bigger than the screen's diagonal si
 # However, it will never get to the max length since they collide with the screen walls.
 
 start_angle = 0
-FOV = 45
+FOV = np.deg2rad(45)
 
 def create_rays(num_of_rays):
     angles = np.linspace(start=start_angle, stop=start_angle+FOV, num=num_of_rays, endpoint=False)
     rays = []
     for angle in angles:
-        ray = Ray(angle=np.deg2rad(angle))
+        ray = Ray(angle)
         rays.append(ray)
     return rays
 
@@ -82,5 +82,5 @@ class Ray:
         base = self.position.x - point_x
         height = self.position.y - point_y
         distance = np.sqrt(np.square(base) + np.square(height))
+
         return distance
-    
