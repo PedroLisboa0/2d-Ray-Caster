@@ -4,11 +4,8 @@ ray_color = "white"
 max_ray_length = 2500 # this just has to be bigger than the screen's diagonal size, so it can traverse the whole window.
 # However, it will never get to the max length since they collide with the screen walls.
 
-start_angle = 0
-FOV = np.deg2rad(45)
-
-def create_rays(num_of_rays):
-    angles = np.linspace(start=start_angle, stop=start_angle+FOV, num=num_of_rays, endpoint=False)
+def create_rays(num_of_rays, FOV, initial_direction=0):
+    angles = np.linspace(start=initial_direction-FOV/2, stop=initial_direction+FOV/2, num=num_of_rays, endpoint=True)
     rays = []
     for angle in angles:
         ray = Ray(angle)
@@ -29,7 +26,7 @@ class Ray:
 
 
     def update_position(self, new_position, walls):
-        self.position.update(new_position)
+        self.position = new_position
         self.direction.update((np.cos(self.angle),np.sin(self.angle)))
         self.length = max_ray_length
         self.collide_points = []
