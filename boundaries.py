@@ -2,7 +2,7 @@ import pygame
 from random import randint
 
 
-def create_walls(num, screen_walls, width, height):
+def create_random_walls(num, screen_walls, width, height):
     walls = []
     for i in range(num):
         new_wall = Boundary(x1=randint(0, width), y1=randint(0, height), x2=randint(0, width), y2=randint(0, height))
@@ -10,6 +10,12 @@ def create_walls(num, screen_walls, width, height):
     if screen_walls:
         walls.extend(create_screen_walls(width, height))
     return walls
+
+def create_wall(point1, point2):
+        x1, y1 = point1
+        x2, y2 = point2
+        new_wall = Boundary(x1, y1, x2, y2)
+        return new_wall
 
 
 class Boundary:

@@ -1,7 +1,7 @@
 import pygame
 import numpy as np
 from ray import create_rays
-from boundaries import create_walls
+from boundaries import create_random_walls, create_wall
 from render import Renderer
 
 pygame.init()
@@ -14,15 +14,14 @@ clock = pygame.time.Clock()
 running = True
 pygame.mouse.set_visible(False)
 
-movement_type = "keyboard" # Defines if moves the light source with mouse or wasd (keyboard)
-is_screen_walls = True # Defines if there are wall objects at the borders of the screen
-render3d = False 
-number_of_walls = 4
+is_screen_walls = False # Defines if there are wall objects at the borders of the screen
+number_of_walls = 0
 number_of_rays = 100
+render3d = False 
 
 field_of_view = np.deg2rad(45)
 
-walls = create_walls(num=number_of_walls, screen_walls=is_screen_walls, width=WIDTH, height=HEIGHT)
+walls = create_random_walls(num=number_of_walls, screen_walls=is_screen_walls, width=WIDTH, height=HEIGHT)
 rays = create_rays(num_of_rays=number_of_rays, FOV=field_of_view)
 caster_position = pygame.math.Vector2(WIDTH/2, HEIGHT/2)
 caster_speed = 15
@@ -37,23 +36,40 @@ while running:
         if event.type == pygame.KEYDOWN:
             match event.key:
                 case pygame.K_r:
-                    walls = create_walls(num=number_of_walls, screen_walls=is_screen_walls, width=WIDTH, height=HEIGHT)
+                    walls = create_random_walls(num=number_of_walls, screen_walls=is_screen_walls, width=WIDTH, height=HEIGHT)
 
                 case pygame.K_w:
                     caster_position += direction * 15
                 case pygame.K_s:
                     caster_position -= direction * 15
                 case pygame.K_a:
-                    right = direction.rotate(270)
-                    caster_position += right * 15
+                    caster_position += direction.rotate(270) * 15
                 case pygame.K_d:
-                    left = right = direction.rotate(90)
-                    caster_position += left * 15
+                    caster_position += direction.rotate(90) * 15
 
                 case pygame.K_e:
                     rotation_speed = 0.005 if rotation_speed == 0 else 0
                 case pygame.K_q:
                     rotation_speed = -0.005 if rotation_speed == 0 else 0
+
+                case pygame.K_o:
+                    wall_point1 = pygame.mouse.get_pos()
+                case pygame.K_p:
+                    wall_point2 = pygame.mouse.get_pos()
+                    wall = create_wall(wall_point1, wall_point2)
+                    walls.append(wall)
+
+                case pygame.K_l:
+                    level = []
+                    for wall in walls:
+                        new_wall = [wall.x1, wall.y1, wall.x2, wall.y2]
+                        new_wall = [str(point) for point in new_wall]
+                        level.append(new_wall)
+                    with open(file="levels.txt", mode="w") as file:
+                        for wall in level:
+                            for point in wall:
+                                file.write(point)
+                            file.write("\n")
 
                 case pygame.K_SPACE:
                     render3d = not render3d
@@ -86,6 +102,7 @@ while running:
         renderer.draw()
 
     pygame.display.flip()
+    
     clock.tick(60)
 
 pygame.quit()
